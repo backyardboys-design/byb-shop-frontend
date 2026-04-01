@@ -1,0 +1,20 @@
+.drawer {
+  & section {
+    background-color: var(--mantine-color-black) !important;
+  }
+  & header {
+    background-color: var(--mantine-color-black) !important;
+  }
+}
+.link {
+  display: flex;
+  align-items: center;
+  height: 85px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: white;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}

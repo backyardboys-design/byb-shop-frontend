@@ -1,0 +1,20 @@
+.card {
+  background: transparent;
+}
+
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.image {
+  transition:
+    transform 350ms ease,
+    filter 350ms ease;
+}
+ 
+.card:hover .image {
+  transform: scale(1.05);
+}

@@ -1,0 +1,18 @@
+.header {
+  height: 85px;
+  background-color: var(--mantine-color-black);
+}
+
+.inner {
+  height: 85px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fixed {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  padding-bottom: 0px !important;
+}

@@ -1,0 +1,18 @@
+.link {
+  display: flex;
+  align-items: center;
+  height: 85px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: white;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}
+.dropdown {
+  --popover-border-color: var(--mantine-color-black) !important;
+  background-color: var(--mantine-color-black) !important;
+  position: fixed;
+  top: 85;
+}

@@ -1,0 +1,74 @@
+.header {
+  height: 85px;
+  background-color: var(--mantine-color-black);
+}
+
+.drawer {
+  & section {
+    background-color: var(--mantine-color-black) !important;
+  }
+  & header {
+    background-color: var(--mantine-color-black) !important;
+  }
+}
+.dropdown {
+  --popover-border-color: var(--mantine-color-black) !important;
+  background-color: var(--mantine-color-black) !important;
+}
+.inner {
+  height: 85px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  height: 85px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: white;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}
+.active {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-0));
+  font-size: var(--mantine-font-size-sm);
+  color: white;
+}
+.link:hover {
+  text-decoration: none;
+}
+
+.linkLabel {
+  margin-right: 5px;
+}
+
+.fixed {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  padding-bottom: 0px !important;
+}
+
+.cart {
+  & section {
+    background-color: var(--mantine-color-dark-9) !important;
+  }
+  & .mantine-Drawer-body {
+    background-color: var(--mantine-color-dark-9) !important;
+    padding-top: 16px !important;
+    margin-top: 16px !important;
+  }
+}
+
