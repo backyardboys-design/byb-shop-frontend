@@ -121,7 +121,7 @@ export default function ProductActions({
   const inView = useIntersection(actionsRef, "0px")
 
   // add the selected variant to the cart
-const handleAddToCart = async () => {
+  const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
 
     setIsAdding(true)
@@ -135,92 +135,104 @@ const handleAddToCart = async () => {
     setIsAdding(false)
   }
 
+  const productTypeView = () => {
+    switch (product.type?.value) {
+      case "Full Custom Design":
+        return (
+          <FullCustomForm
+            variantId={selectedVariant}
+            countryCode={countryCode}
+            setIsAdding={setIsAdding}
+            disabled={
+              !inStock ||
+              !selectedVariant ||
+              !!disabled ||
+              isAdding ||
+              !isValidVariant
+            }
+            loading={isAdding}
+          />
+        )
+      case "Semi Custom Designs":
+        return (
+          <SemiCustomForm
+            variantId={selectedVariant}
+            countryCode={countryCode}
+            setIsAdding={setIsAdding}
+            disabled={
+              !inStock ||
+              !selectedVariant ||
+              !!disabled ||
+              isAdding ||
+              !isValidVariant
+            }
+            loading={isAdding}
+          />
+        )
+      default:
+        return (
+          <div className="flex flex-col gap-y-2" ref={actionsRef}>
+            <div>
+              {(product.variants?.length ?? 0) > 1 && (
+                <div className="flex flex-col gap-y-4">
+                  {(product.options || []).map((option) => {
+                    return (
+                      <div key={option.id}>
+                        <OptionSelect
+                          option={option}
+                          current={options[option.id]}
+                          updateOption={setOptionValue}
+                          title={option.title ?? ""}
+                          data-testid="product-options"
+                          disabled={!!disabled || isAdding}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
+            <Button
+              onClick={handleAddToCart}
+              disabled={
+                !inStock ||
+                !selectedVariant ||
+                !!disabled ||
+                isAdding ||
+                !isValidVariant
+              }
+              variant="primary"
+              className="w-full h-10"
+              isLoading={isAdding}
+              data-testid="add-product-button"
+            >
+              {!selectedVariant && !options
+                ? "Select variant"
+                : !inStock || !isValidVariant
+                ? "Out of stock"
+                : "In den Warenkorb legen"}
+            </Button>
+            <MobileActions
+              product={product}
+              variant={selectedVariant}
+              options={options}
+              updateOptions={setOptionValue}
+              inStock={inStock}
+              handleAddToCart={() => {}}
+              isAdding={isAdding}
+              show={!inView}
+              optionsDisabled={!!disabled || isAdding}
+            />
+          </div>
+        )
+    }
+  }
+
   return (
     <>
       <ProductPrice product={product} variant={selectedVariant} />
-      {product.type?.value === "Full Custom Design" && <FullCustomForm
-          variantId={selectedVariant}
-          countryCode={countryCode}
-          setIsAdding={setIsAdding}
-          disabled={
-            !inStock ||
-            !selectedVariant ||
-            !!disabled ||
-            isAdding ||
-            !isValidVariant
-          }
-          loading={isAdding}
-        />}
-      {product.type?.value === "Semi Custom Designs" && (
-        <SemiCustomForm
-          variantId={selectedVariant}
-          countryCode={countryCode}
-          setIsAdding={setIsAdding}
-          disabled={
-            !inStock ||
-            !selectedVariant ||
-            !!disabled ||
-            isAdding ||
-            !isValidVariant
-          }
-          loading={isAdding}
-        />
-      )}
-      {product.type?.value === "Clothing" && <></>}
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
-              {(product.options || []).map((option) => {
-                return (
-                  <div key={option.id}>
-                    <OptionSelect
-                      option={option}
-                      current={options[option.id]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || isAdding}
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </div>
-
-        <Button
-          onClick={handleAddToCart}
-          disabled={
-            !inStock ||
-            !selectedVariant ||
-            !!disabled ||
-            isAdding ||
-            !isValidVariant
-          }
-          variant="primary"
-          className="w-full h-10"
-          isLoading={isAdding}
-          data-testid="add-product-button"
-        >
-          {!selectedVariant && !options
-            ? "Select variant"
-            : !inStock || !isValidVariant
-            ? "Out of stock"
-            : "In den Warenkorb legen"}
-        </Button>
-        <MobileActions
-          product={product}
-          variant={selectedVariant}
-          options={options}
-          updateOptions={setOptionValue}
-          inStock={inStock}
-          handleAddToCart={() => {}}
-          isAdding={isAdding}
-          show={!inView}
-          optionsDisabled={!!disabled || isAdding}
-        />
-      </div>
+      {productTypeView()}
     </>
   )
 }

@@ -8,8 +8,6 @@ import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
 import Header from "@/components/layout/Header/Header"
 import Footer from "@/components/layout/Footer/Footer"
-import { Container } from "@mantine/core"
-import HomeCarousel from "@/components/main/HomeCarousel/HomeCarousel"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -30,20 +28,17 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
     <>
       <Header />
       <main>
-        <HomeCarousel />
-        <Container size="xl" mt={80}>
-          {customer && cart && (
-            <CartMismatchBanner customer={customer} cart={cart} />
-          )}
-          {cart && (
-            <FreeShippingPriceNudge
-              variant="popup"
-              cart={cart}
-              shippingOptions={shippingOptions}
-            />
-          )}
-          {props.children}
-        </Container>
+        {customer && cart && (
+          <CartMismatchBanner customer={customer} cart={cart} />
+        )}
+        {cart && (
+          <FreeShippingPriceNudge
+            variant="popup"
+            cart={cart}
+            shippingOptions={shippingOptions}
+          />
+        )}
+        {props.children}
       </main>
       <Footer />
     </>

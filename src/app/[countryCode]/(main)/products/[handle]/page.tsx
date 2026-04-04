@@ -5,6 +5,7 @@ import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 import ProductPage from "@/components/products/ProductPage/ProductPage"
+import { Container } from "@mantine/core"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -121,12 +122,12 @@ export default async function Page(props: Props) {
     notFound()
   }
 
-  return (
-    <ProductPage
+  return (<Container size="xl" mt={80}><ProductPage
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
       images={images}
-    />
+    /></Container>
+    
   )
 }

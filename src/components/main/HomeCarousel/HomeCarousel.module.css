@@ -1,0 +1,13 @@
+.carousel {
+    height: calc(100vh - 80px);
+}
+.overlay {
+    position: absolute;
+    z-index: 2;
+    height: calc(100vh - 80px);
+    width: 100%;
+}
+
+.logo {
+    filter: drop-shadow(10px 10px 8px rgba(0, 0, 0, 1));
+}
