@@ -30,7 +30,6 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
     <>
       <Header />
       <main>
-        <HomeCarousel />
         <Container size="xl" mt={80}>
           {customer && cart && (
             <CartMismatchBanner customer={customer} cart={cart} />
