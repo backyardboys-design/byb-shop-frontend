@@ -510,6 +510,7 @@ export const SemiCustomForm = ({
                   p={10}
                   radius="md"
                   style={{
+                    width: 120,
                     overflow: "hidden",
                     border: selected
                       ? "2px solid var(--mantine-color-white)"
