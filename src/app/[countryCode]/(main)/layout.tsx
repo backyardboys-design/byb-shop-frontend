@@ -9,7 +9,6 @@ import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-p
 import Header from "@/components/layout/Header/Header"
 import Footer from "@/components/layout/Footer/Footer"
 import { Container } from "@mantine/core"
-import HomeCarousel from "@/components/main/HomeCarousel/HomeCarousel"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),

@@ -20,6 +20,14 @@ const HomeCarousel = () => {
                 maw="100%"
                 w="100%"
                 className={classes.logo}
+                visibleFrom="sm"
+              />
+              <Image
+                src="/carousel/banner-sm.png"
+                maw="100%"
+                w="100%"
+                className={classes.logo}
+                hiddenFrom="sm"
               />
             </Center>
           </Box>

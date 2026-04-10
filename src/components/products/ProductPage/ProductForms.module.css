@@ -1,0 +1,17 @@
+.radio_card {
+  width: 120  !important;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    width: 90  !important;
+  }
+}
+
+.radio_img {
+  height: 100  !important;
+  width: 100  !important;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    height: 70  !important;
+    width: 70  !important;
+  }
+}

@@ -14,7 +14,8 @@ import {
   Tooltip,
 } from "@mantine/core"
 import { HttpTypes } from "@medusajs/types"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import classes from "./ProductForms.module.css"
 type FullustomProps = {
   variantId: HttpTypes.StoreProductVariant | undefined
   countryCode: string
@@ -28,7 +29,7 @@ export const FullCustomForm = ({
   setIsAdding,
   disabled = false,
   loading = false,
-}: SemiCustomProps) => {
+}: FullustomProps) => {
   const [form, setForm] = useState({
     bike_brand: "",
     bike_model: "",
@@ -227,6 +228,7 @@ export const FullCustomForm = ({
                       ? "2px solid var(--mantine-color-white)"
                       : "1px solid var(--mantine-color-dark-4)",
                   }}
+                  className={classes.radio_card}
                 >
                   <Stack gap={0}>
                     <Tooltip label={option.label} color="gray.9">
@@ -237,6 +239,7 @@ export const FullCustomForm = ({
                         w={100}
                         fit="cover"
                         radius="sm"
+                        className={classes.radio_img}
                       />
                     </Tooltip>
                   </Stack>
@@ -269,6 +272,7 @@ export const FullCustomForm = ({
                       ? "2px solid var(--mantine-color-white)"
                       : "1px solid var(--mantine-color-dark-4)",
                   }}
+                  className={classes.radio_card}
                 >
                   <Stack gap={0}>
                     <Tooltip label={option.label} color="gray.9">
@@ -279,6 +283,7 @@ export const FullCustomForm = ({
                         w={100}
                         fit="cover"
                         radius="sm"
+                        className={classes.radio_img}
                       />
                     </Tooltip>
                   </Stack>
@@ -310,6 +315,11 @@ type SemiCustomProps = {
   setIsAdding: Dispatch<SetStateAction<boolean>>
   disabled: boolean
   loading: boolean
+
+  baseValue?: string
+  finishValue?: string
+  onBaseChange: (value: string) => void
+  onFinishChange: (value: string) => void
 }
 export const SemiCustomForm = ({
   variantId,
@@ -317,6 +327,10 @@ export const SemiCustomForm = ({
   setIsAdding,
   disabled = false,
   loading = false,
+  baseValue,
+  finishValue,
+  onBaseChange,
+  onFinishChange,
 }: SemiCustomProps) => {
   const [form, setForm] = useState({
     bike_brand: "",
@@ -327,7 +341,6 @@ export const SemiCustomForm = ({
     finish: "Glossy",
   })
 
-  console.log(form)
   type PremiumBaseOption = {
     value: string
     label: string
@@ -398,6 +411,20 @@ export const SemiCustomForm = ({
 
     setIsAdding(false)
   }
+
+  const changeBase = (e: string) => {
+    onBaseChange(e)
+    setField("base", e)
+  }
+  const changeFinish = (e: string) => {
+    onFinishChange(e)
+    setField("finish", e)
+  }
+
+  useEffect(() => {
+    changeBase(form.base)
+    changeFinish(form.finish)
+  }, [])
   return (
     <form
       onSubmit={(e) => {
@@ -469,7 +496,7 @@ export const SemiCustomForm = ({
           label="Premium Base"
           withAsterisk
           value={form.base}
-          onChange={(e) => setField("base", e)}
+          onChange={(e) => changeBase(e)}
           required
         >
           <Group>
@@ -483,12 +510,12 @@ export const SemiCustomForm = ({
                   p={10}
                   radius="md"
                   style={{
-                    width: 120,
                     overflow: "hidden",
                     border: selected
                       ? "2px solid var(--mantine-color-white)"
                       : "1px solid var(--mantine-color-dark-4)",
                   }}
+                  className={classes.radio_card}
                 >
                   <Stack gap={0}>
                     <Tooltip label={option.label} color="gray.9">
@@ -499,6 +526,7 @@ export const SemiCustomForm = ({
                         w={100}
                         fit="cover"
                         radius="sm"
+                        className={classes.radio_img}
                       />
                     </Tooltip>
                   </Stack>
@@ -511,7 +539,7 @@ export const SemiCustomForm = ({
           label="Premium Finish"
           withAsterisk
           value={form.finish}
-          onChange={(e) => setField("finish", e)}
+          onChange={(e) => changeFinish(e)}
           required
         >
           <Group>
@@ -531,6 +559,7 @@ export const SemiCustomForm = ({
                       ? "2px solid var(--mantine-color-white)"
                       : "1px solid var(--mantine-color-dark-4)",
                   }}
+                  className={classes.radio_card}
                 >
                   <Stack gap={0}>
                     <Tooltip label={option.label} color="gray.9">
@@ -541,6 +570,7 @@ export const SemiCustomForm = ({
                         w={100}
                         fit="cover"
                         radius="sm"
+                        className={classes.radio_img}
                       />
                     </Tooltip>
                   </Stack>
@@ -549,6 +579,96 @@ export const SemiCustomForm = ({
             })}
           </Group>
         </Radio.Group>
+        <Button
+          fullWidth
+          type="submit"
+          variant="gradient"
+          gradient={{ from: "grape", to: "indigo", deg: 145 }}
+          radius="md"
+          size="lg"
+          disabled={disabled}
+          loading={loading}
+        >
+          In Warenkorb legen
+        </Button>
+      </Stack>
+    </form>
+  )
+}
+
+type ReprintDesignProps = {
+  variantId: HttpTypes.StoreProductVariant | undefined
+  countryCode: string
+  setIsAdding: Dispatch<SetStateAction<boolean>>
+  disabled: boolean
+  loading: boolean
+}
+export const ReprintDesignForm = ({
+  variantId,
+  countryCode,
+  setIsAdding,
+  disabled = false,
+  loading = false,
+}: ReprintDesignProps) => {
+  const [form, setForm] = useState({
+    order_number: "",
+    parts: "",
+    adapt_fitment: "",
+  })
+
+  const setField = (name: string, value: string) => {
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
+  const handleAddToCart = async () => {
+    if (!variantId?.id) return null
+
+    setIsAdding(true)
+
+    await addToCart({
+      variantId: variantId?.id,
+      quantity: 1,
+      countryCode,
+      metadata: form,
+    })
+
+    setIsAdding(false)
+  }
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleAddToCart()
+      }}
+    >
+      <Stack gap="sm" mt="md">
+        <Box
+          bg="white"
+          p={2}
+          style={{ borderRadius: "var(--mantine-radius-sm)" }}
+        >
+          <Text ta="center" fw={700} size="xl" c="black">
+            ORDER INFORMATION
+          </Text>
+        </Box>
+        <TextInput
+          label="Bestellnummer"
+          placeholder="#12325"
+          size="md"
+          radius="sm"
+          variant="filled"
+          value={form.order_number}
+          onChange={(e) => setField("order_number", e.currentTarget.value)}
+          required
+        />
+        <TextInput
+          label="Anpassung an neue Kunststoffteile? (Keine Designänderungen)"
+          placeholder="Ändern auf KTM-Scheinwerfer (Modell 2020)"
+          size="md"
+          radius="sm"
+          variant="filled"
+          value={form.adapt_fitment}
+          onChange={(e) => setField("adapt_fitment", e.currentTarget.value)}
+        />
         <Button
           fullWidth
           type="submit"

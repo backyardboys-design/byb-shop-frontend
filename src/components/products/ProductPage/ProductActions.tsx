@@ -11,7 +11,11 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import MobileActions from "@/modules/products/components/product-actions/mobile-actions"
 import ProductPrice from "./ProductPrice"
-import { FullCustomForm, SemiCustomForm } from "./ProductForms"
+import {
+  FullCustomForm,
+  ReprintDesignForm,
+  SemiCustomForm,
+} from "./ProductForms"
 
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct
@@ -89,7 +93,9 @@ export default function ProductActions({
       params.delete("v_id")
     }
 
-    router.replace(pathname + "?" + params.toString())
+    router.replace(pathname + "?" + params.toString(), {
+      scroll: false,
+    })
   }, [selectedVariant, isValidVariant])
 
   // check if the selected variant is in stock
@@ -135,6 +141,9 @@ export default function ProductActions({
     setIsAdding(false)
   }
 
+  const baseOption = product.options?.find((o) => o.title === "Base")
+  const finishOption = product.options?.find((o) => o.title === "Finish")
+
   const productTypeView = () => {
     switch (product.type?.value) {
       case "Full Custom Design":
@@ -156,6 +165,30 @@ export default function ProductActions({
       case "Semi Custom Designs":
         return (
           <SemiCustomForm
+            variantId={selectedVariant}
+            countryCode={countryCode}
+            setIsAdding={setIsAdding}
+            disabled={
+              !inStock ||
+              !selectedVariant ||
+              !!disabled ||
+              isAdding ||
+              !isValidVariant
+            }
+            loading={isAdding}
+            baseValue={baseOption ? options[baseOption.id] : undefined}
+            finishValue={finishOption ? options[finishOption.id] : undefined}
+            onBaseChange={(value) => {
+              if (baseOption) setOptionValue(baseOption.id, value)
+            }}
+            onFinishChange={(value) => {
+              if (finishOption) setOptionValue(finishOption.id, value)
+            }}
+          />
+        )
+      case "Reprint Design":
+        return (
+          <ReprintDesignForm
             variantId={selectedVariant}
             countryCode={countryCode}
             setIsAdding={setIsAdding}

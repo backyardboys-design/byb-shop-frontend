@@ -14,7 +14,7 @@ type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
   countryCode: string
-  images: HttpTypes.StoreProductImage[]
+  images: HttpTypes.StoreProductImage[] | null
 }
 
 const ProductPage: React.FC<ProductTemplateProps> = ({
@@ -31,7 +31,7 @@ const ProductPage: React.FC<ProductTemplateProps> = ({
     <>
       <Grid>
         <GridCol span={{ base: 12, md: 6.5 }}>
-          <ImageGallery images={images} />
+          {images != null && <ImageGallery images={images} />}
         </GridCol>
         <GridCol span={{ base: 12, md: 5.5 }} mt={20}>
           <ProductInfo product={product} />
@@ -48,14 +48,6 @@ const ProductPage: React.FC<ProductTemplateProps> = ({
           </Suspense>
         </GridCol>
       </Grid>
-      <div
-        className="content-container my-16 small:my-32"
-        data-testid="related-products-container"
-      >
-        <Suspense fallback={<SkeletonRelatedProducts />}>
-          <RelatedProducts product={product} countryCode={countryCode} />
-        </Suspense>
-      </div>
     </>
   )
 }
