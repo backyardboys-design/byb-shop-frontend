@@ -111,7 +111,7 @@ const SideMenu = () => {
           title: "GIFTCARDS",
           description: "TO GIVE AWAY",
           img: "/menu/giftcard.png",
-          link: "",
+          link: "/products/backyardboys-gutschein",
         },
       ],
     },
